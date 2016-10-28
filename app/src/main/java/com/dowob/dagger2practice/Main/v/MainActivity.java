@@ -8,10 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
+import com.dowob.dagger2practice.Main.ComponentStore;
 import com.dowob.dagger2practice.Main.a.v.AFragment;
 import com.dowob.dagger2practice.Main.b.v.BFragment;
 import com.dowob.dagger2practice.Main.di.DaggerMainHandlerComponent;
 import com.dowob.dagger2practice.Main.di.MainHandlerComponent;
+import com.dowob.dagger2practice.Main.di.MainHandlerModule;
+import com.dowob.dagger2practice.Main.m.IMainModel;
 import com.dowob.dagger2practice.Main.vm.IMainHandler;
 import com.dowob.dagger2practice.Main.vm.MainHandler;
 import com.dowob.dagger2practice.R;
@@ -24,14 +27,20 @@ public class MainActivity extends AppCompatActivity implements IMainView {
     @Inject
     IMainHandler mainHandler;
 
+    @Inject
+    IMainModel mainModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DaggerMainHandlerComponent.builder().build().inject(this);
+        ComponentStore.getInstance().getMainHandlerC().inject(this);
+        mainModel.addClickBtnCount();
+
 //        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setHandlers(mainHandler);
 //        binding.setHandlers(new MainHandler());
+        switchToAPage();
     }
 
     @Override

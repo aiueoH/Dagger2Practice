@@ -5,4 +5,5 @@ package com.dowob.dagger2practice.Main.m;
  */
 
 public interface IMainModel {
+    void addClickBtnCount();
 }
